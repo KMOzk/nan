@@ -1,13 +1,17 @@
 import random
 
+# region Colors
 red = "\x1b[1;31m"
 white = "\x1b[0m"
 green = "\x1b[1;32m"
 blue = " \x1b[1;34m"
 new_line = "\n"
+# endregion
 
 max_tries = 5
 
+
+# region Logo + name
 def print_logo():
     logo = red + r"""        ___           ___           ___           ___           ___           ___           ___     
         /\__\         /\  \         /\__\         /\__\         /\__\         /\__\         /\  \    
@@ -25,12 +29,27 @@ def print_logo():
 def print_name(user_name):
     print_logo()
     print("Welcome: " + user_name + new_line)
+# endregion
+
+def check_valid_input(user_input):
+    if user_input == " ":
+        print("No valid input")
+        quit()
+    else:
+        if user_input.isdigit():
+            return True & int(user_input)
+        return None
+
 
 def generate_number_to_guess(difficulty):
+    easy_mode_max_guess_number = 10
+    normal_mode_max_guess_number = 50
+    hard_mode_max_guess_number = 100
     print("")
 
 
 def mode_handler():
+
     print("")
 
 
@@ -38,10 +57,11 @@ def user_max_tries(difficulty):
     max_tries = difficulty
     return max_tries
 
+
 def calculate_difficulty(user_score):
     low_score = 5
     normal_score = 12
-    
+
     if user_score < low_score:
         return print("Try a lower difficulty")
     elif low_score <= user_score <= normal_score:
@@ -56,8 +76,8 @@ def calculate_score(difficulty_level, user_tries):
 
 
 def start_guess_game():
-
     has_won = False
+
     print("Pick your difficulty \n" + green + " 1. easy" + blue + "\n 2. normal\n" + red + " 3. hard\n " + white)
     user_pick = int(input("Which difficulty: ", ))
 
@@ -98,38 +118,43 @@ def start_guess_game():
     print("number to guess: " + str(number_to_guess))
 
     while user_tries < max_tries:
+        user_guess = input("number guess: ")
+        if check_valid_input(user_guess):
+            user_guess = int(user_guess)
+            user_tries += add_one
+            user_tries += add_one
+            remaining = max_tries - user_tries
 
-        user_guess = int(input("number guess: "))
-        user_tries += add_one
+            print("Tries left: " + red + str(remaining) + white + ", User tries: " + blue + str(user_tries) + white)
 
-        remaining = max_tries - user_tries
-        print("User tries: " + blue + str(user_tries) + white)
-        print("Tries left: " + red + str(remaining) + white)
-
-        if user_guess == number_to_guess:
-            has_won = True
-            break
-        else:
-            difference = abs(user_guess - number_to_guess)
-            if difference <= 2:
-                print("Your close!")
+            if user_guess == number_to_guess:
+                has_won = True
+                break
+            else:
+                difference = abs(user_guess - number_to_guess)
+                if difference <= 2:
+                    print("Your close!")
 
             if user_guess < number_to_guess:
                 print("Higher")
             else:
                 print("Lower")
 
-    if has_won:
-        score = (max_tries - user_tries) * difficulty_level
-        print("Your score is: " + blue + str(score) + white)
-        calculate_difficulty(score)
-    else:
-        print("You ran out of " + red + "tries" + white + ", the number was " + red + str(number_to_guess) + white)
-        score = 0
-        print("Your score is: " + red + str(score) + white)
-    calculate_difficulty(user_tries)
+            if has_won:
+                score = (max_tries - user_tries) * difficulty_level
+                print("Your score is: " + blue + str(score) + white)
+                calculate_difficulty(score)
+            else:
+                print("You ran out of " + red + "tries" + white + ", the number was " + red + str(number_to_guess) + white)
+                score = 0
+                print("Your score is: " + red + str(score) + white)
+                calculate_difficulty(user_tries)
+                start_game_again()
 
+
+def start_game_again():
     start_again = int(input("Want to play again? Press 1: "))
+
     if start_again == 1:
         start_guess_game()
     else:

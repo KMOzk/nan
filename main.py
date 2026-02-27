@@ -1,12 +1,16 @@
 from games import guesser, galgje
 import json
 
+# region Colors
 red = "\x1b[1;31m"
 green = "\x1b[1;32m"
 blue = "\x1b[1;34m"
 reset = "\x1b[0m"
 
 
+# endregion
+
+# region LOGO
 def print_logo():
     logo = red + r""" 
          <-. (`-')_ (`-')  _ <-. (`-')_            <-. (`-')_  _     <-. (`-')_                (`-').->  _     <-. (`-')   _  (`-')          (`-')  _               (`-')  _ <-. (`-')   (`-')  _ (`-').-> 
@@ -20,6 +24,7 @@ def print_logo():
     print(logo)
 
 
+# endregion
 def credentials():
     """
     Instead of repeated usages of the same snippet of code this function enables the user to enter there details without being present in both functions.
@@ -28,6 +33,16 @@ def credentials():
     user_name = input("Enter username: ")
     user_password = input("Enter password: ")
     return user_name, user_password
+
+
+def check_valid_input(user_input):
+    if not user_input.strip():
+        print("No valid input")
+        return None
+
+    if user_input.isdigit():
+        return int(user_input)
+    return None
 
 
 def user_login_create_json(user_name, user_password):
@@ -65,25 +80,34 @@ def user_login_create_json(user_name, user_password):
         choose_game(True, user_name)
 
 
+def text_space_print(given_text):
+    text = f"\n{given_text}\n"
+    print(text)
+
+
 def log_in():
-    print("\nLog in\n")
+    text_to_print = "Log in"
+    text_space_print(text_to_print)
+
     user_details = credentials()
     user_login_create_json(user_details[0], user_details[1])
 
 
 def create_account():
-    print("\nCreate a account\n")
+    text_to_print = "Create a account"
+    text_space_print(text_to_print)
+
     user_details = credentials()
     user_login_create_json(user_details[0], user_details[1])
 
 
 def account():
     print("\n1. to login into your account\n2. to create a account\n")
-    choose_detail = int(input(""))
+    choose_detail = check_valid_input(input(""))
 
     if choose_detail == 1:
         log_in()
-    else:
+    if choose_detail == 2:
         create_account()
 
 
@@ -94,12 +118,13 @@ def choose_game(logged_in, user_name):
     """
     if logged_in:
         print("\nPick a game to play:\n" + green + "1. Guesser\n" + reset + blue + "2. Galgje" + reset)
+        enter_game_text = "Enter game choice: "
+        print(enter_game_text.strip())
 
-        user_pick = int(input("Enter game choice: "))
+        user_pick = check_valid_input(input())
         if user_pick == 1:
             guesser.print_name(user_name)
             guesser.start_guess_game()
-
 
         elif user_pick == 2:
             galgje.start_galgje_game()
@@ -110,8 +135,8 @@ def choose_game(logged_in, user_name):
 
 def main():
     print_logo()
-    # account()
-    choose_game(True,"k")
+    account()
+    # choose_game(True, "k")
 
 
 if __name__ == '__main__':
