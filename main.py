@@ -25,13 +25,15 @@ def print_logo():
 
 
 # endregion
-def credentials():
+
+
+def get_credentials():
     """
     Instead of repeated usages of the same snippet of code this function enables the user to enter there details without being present in both functions.
     :return: The user input of their username and password.
     """
-    user_name = input("Enter username: ")
-    user_password = input("Enter password: ")
+    user_name = input("Enter username: ").strip()
+    user_password = input("Enter password: ").strip()
     return user_name, user_password
 
 
@@ -59,13 +61,13 @@ def user_login_create_json(user_name, user_password):
         data = json.load(json_file)
         accounts = data["accountDetails"]
 
-        for account in accounts:
-            if account["username"] == user_name and account["password"] == user_password:
-                print("User found logging in")
+        for user_account in accounts:
+            if user_account["username"] == user_name and user_account["password"] == user_password:
+                print(green + "User found logging in" + reset)
                 choose_game(True, user_name)
                 return
 
-        print("User not found creating account")
+        print(blue + "User not found creating account" + reset)
 
         new_entry = {
             "username": user_name,
@@ -77,6 +79,7 @@ def user_login_create_json(user_name, user_password):
         json_file.seek(0)
         json.dump(data, json_file, indent=2)
         json_file.truncate()
+        json_file.close()
         choose_game(True, user_name)
 
 
@@ -89,7 +92,7 @@ def log_in():
     text_to_print = "Log in"
     text_space_print(text_to_print)
 
-    user_details = credentials()
+    user_details = get_credentials()
     user_login_create_json(user_details[0], user_details[1])
 
 
@@ -97,12 +100,12 @@ def create_account():
     text_to_print = "Create a account"
     text_space_print(text_to_print)
 
-    user_details = credentials()
+    user_details = get_credentials()
     user_login_create_json(user_details[0], user_details[1])
 
 
 def account():
-    print("\n1. to login into your account\n2. to create a account\n")
+    print(f"\n{blue}1.{reset} to {blue}login{reset} into your account\n{green}2.{reset} to {green}create{reset} a account\n")
     choose_detail = check_valid_input(input(""))
 
     if choose_detail == 1:
@@ -122,21 +125,22 @@ def choose_game(logged_in, user_name):
         print(enter_game_text.strip())
 
         user_pick = check_valid_input(input())
+
         if user_pick == 1:
             guesser.print_name(user_name)
             guesser.start_guess_game()
 
         elif user_pick == 2:
-            galgje.start_galgje_game()
             galgje.print_name(user_name)
+            galgje.start_galgje_game()
         else:
             print("Invalid selection.")
 
 
 def main():
     print_logo()
-    account()
-    # choose_game(True, "k")
+    #account()
+    choose_game(True, "k")
 
 
 if __name__ == '__main__':
