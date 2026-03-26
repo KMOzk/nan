@@ -1,0 +1,14 @@
+RED          = "\x1b[1;31m"
+WHITE        = "\033[97m"
+GREEN        = "\x1b[1;32m"
+BLUE         = "\x1b[1;34m"
+MAGENTA      = "\033[35m"
+BRIGHT_CYAN  = "\033[96m"
+LIGHT_GRAY = '\033[37m'
+DARK_GRAY = '\033[90m'
+BRIGHT_RED = '\033[91m'
+BRIGHT_GREEN = '\033[92m'
+BRIGHT_YELLOW = '\033[93m'
+BRIGHT_BLUE = '\033[94m'
+BRIGHT_MAGENTA = '\033[95m'
+NEW_LINE     = "\n"

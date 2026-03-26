@@ -1,27 +1,13 @@
+from extras.colors import *
 from games import guesser, galgje
-import json
+from api import api_animal, weather_api
+import account_management
+from extras import logos, rekenmenen
 
-# region Colors
-red = "\x1b[1;31m"
-green = "\x1b[1;32m"
-blue = "\x1b[1;34m"
-reset = "\x1b[0m"
-
-
-# endregion
 
 # region LOGO
 def print_logo():
-    logo = red + r""" 
-         <-. (`-')_ (`-')  _ <-. (`-')_            <-. (`-')_  _     <-. (`-')_                (`-').->  _     <-. (`-')   _  (`-')          (`-')  _               (`-')  _ <-. (`-')   (`-')  _ (`-').-> 
-       \( OO) )(OO ).-/    \( OO) )     .->      \( OO) )(_)       \( OO) )    .->        ( OO)_   (_)       \(OO )_  \-.(OO )   <-.    ( OO).-/        .->    (OO ).-/    \(OO )_  ( OO).-/ ( OO)_   
-    ,--./ ,--/ / ,---.  ,--./ ,--/ (`-')----. ,--./ ,--/ ,-(`-'),--./ ,--/  ,---(`-')    (_)--\_)  ,-(`-'),--./  ,-.) _.'    \ ,--. )  (,------.     ,---(`-') / ,---.  ,--./  ,-.)(,------.(_)--\_)  
-    |   \ |  | | \ /`.\ |   \ |  | ( OO).-.  '|   \ |  | | ( OO)|   \ |  | '  .-(OO )    /    _ /  | ( OO)|   `.'   |(_...--'' |  (`-') |  .---'    '  .-(OO ) | \ /`.\ |   `.'   | |  .---'/    _ /  
-    |  . '|  |)'-'|_.' ||  . '|  |)( _) | |  ||  . '|  |)|  |  )|  . '|  |)|  | .-, \    \_..`--.  |  |  )|  |'.'|  ||  |_.' | |  |OO )(|  '--.     |  | .-, \ '-'|_.' ||  |'.'|  |(|  '--. \_..`--.  
-    |  |\    |(|  .-.  ||  |\    |  \|  |)|  ||  |\    |(|  |_/ |  |\    | |  | '.(_/    .-._)   \(|  |_/ |  |   |  ||  .___.'(|  '__ | |  .--'     |  | '.(_/(|  .-.  ||  |   |  | |  .--' .-._)   \ 
-    |  | \   | |  | |  ||  | \   |   '  '-'  '|  | \   | |  |'->|  | \   | |  '-'  |     \       / |  |'->|  |   |  ||  |      |     |' |  `---.    |  '-'  |  |  | |  ||  |   |  | |  `---.\       / 
-    `--'  `--' `--' `--'`--'  `--'    `-----' `--'  `--' `--'   `--'  `--'  `-----'       `-----'  `--'   `--'   `--'`--'      `-----'  `------'     `-----'   `--' `--'`--'   `--' `------' `-----'  """ + reset
-    print(logo)
+    logos.print_main_logo()
 
 
 # endregion
@@ -38,6 +24,11 @@ def get_credentials():
 
 
 def check_valid_input(user_input):
+    """
+    Checks if the given useer_input is a valid response and if it is a digit.
+    :param user_input: The input given by the player.
+    :return: If the input isn't valid we return None but if the input is a digit we return the int value.
+    """
     if not user_input.strip():
         print("No valid input")
         return None
@@ -47,103 +38,95 @@ def check_valid_input(user_input):
     return None
 
 
-def user_login_create_json(user_name, user_password):
+def space_in_text(given_text):
     """
-    This function is responsible for the check and creation of user accounts.
-    It checks if the user already exist and logs the user in, if not then the account gets created.
-    :param user_name: The users name.
-    :param user_password: The users password
-    :return:
+    Adds a new line before and after the given_text.
+    :param given_text: The given text we want to be centered.
+    :return: Nothing.
     """
-    file_path = 'account.json'
-
-    with open(file_path, 'r+') as json_file:
-        data = json.load(json_file)
-        accounts = data["accountDetails"]
-
-        for user_account in accounts:
-            if user_account["username"] == user_name and user_account["password"] == user_password:
-                print(green + "User found logging in" + reset)
-                choose_game(True, user_name)
-                return
-
-        print(blue + "User not found creating account" + reset)
-
-        new_entry = {
-            "username": user_name,
-            "password": user_password
-        }
-
-        accounts.append(new_entry)
-
-        json_file.seek(0)
-        json.dump(data, json_file, indent=2)
-        json_file.truncate()
-        json_file.close()
-        choose_game(True, user_name)
-
-
-def text_space_print(given_text):
     text = f"\n{given_text}\n"
     print(text)
 
 
-def log_in():
-    text_to_print = "Log in"
-    text_space_print(text_to_print)
-
-    user_details = get_credentials()
-    user_login_create_json(user_details[0], user_details[1])
-
-
-def create_account():
-    text_to_print = "Create a account"
-    text_space_print(text_to_print)
-
-    user_details = get_credentials()
-    user_login_create_json(user_details[0], user_details[1])
+def handle_account_action(action_text):
+    """"
+    :parameter action_text:
+    """
+    space_in_text(action_text)
+    username, password = get_credentials()
+    account_management.user_account_handler(username, password)
+    return username
 
 
-def account():
-    print(f"\n{blue}1.{reset} to {blue}login{reset} into your account\n{green}2.{reset} to {green}create{reset} a account\n")
-    choose_detail = check_valid_input(input(""))
+def ask_account():
+    """
+    Ask user if he wants to log in or create an account.
+    :return:Nothing.
+    """
+    while True:
+        print(f"{BLUE}1.{WHITE} to {BLUE}login{WHITE} into your account\n{GREEN}2.{WHITE} to {GREEN}create{WHITE} a account\n")
+        choose_detail = check_valid_input(input(""))
 
-    if choose_detail == 1:
-        log_in()
-    if choose_detail == 2:
-        create_account()
+        match choose_detail:
+            case 1:
+                return handle_account_action(f"{BLUE}Log in{WHITE}")
+            case 2:
+                return handle_account_action("Create a account")
+            case _:
+                print(f"{RED}Invalid{WHITE} selection. Try again.\n")
 
 
 def choose_game(logged_in, user_name):
     """
        Main function that lets the user pick the game they want to play and gives the username.
-       :return:
+       :parameter logged_in: If the user is logged then we show the game selection.
+       :parameter user_name: The username we are going to display.
+       :return: Nothing.
     """
-    if logged_in:
-        print("\nPick a game to play:\n" + green + "1. Guesser\n" + reset + blue + "2. Galgje" + reset)
-        enter_game_text = "Enter game choice: "
-        print(enter_game_text.strip())
+    if not logged_in:
+        return
 
-        user_pick = check_valid_input(input())
+    while logged_in:
+        print(f"\nPick a game to play:\n"
+              f"{BRIGHT_GREEN} 1. Guesser\n"
+              f"{BRIGHT_BLUE} 2. Galgje\n"
+              f"{MAGENTA} 3. Animal facts API\n"
+              f"{BRIGHT_CYAN} 4. Weather guesser api\n"
+              f"{BRIGHT_RED} 5. Rekenmenen\n"
+              f"{WHITE}"
+              )
 
-        if user_pick == 1:
-            guesser.print_name(user_name)
-            guesser.start_guess_game()
+        enter_game_text = f"Enter {BRIGHT_BLUE}game{WHITE} choice: "
 
-        elif user_pick == 2:
-            galgje.print_name(user_name)
-            galgje.start_galgje_game()
-        else:
-            print("Invalid selection.")
+        user_pick = input(enter_game_text)
+
+        match user_pick:
+            case "1"| "Guesser":
+                guesser.start_guess_game(user_name)
+
+            case "2"|"Galgje":
+                galgje.start_galgje_game(user_name)
+
+            case "3"|"Animal facts API":
+                api_animal.start_api_animal(user_name)
+
+            case "4"| "Weather":
+                weather_api.get_city()
+
+            case "5" | "Reken":
+                rekenmenen.choices()
+            case _:
+                print(f"{RED}Invalid{WHITE} selection. Try again\n")
 
 
 def main():
+    """
+    The main function organizing the loop of the game.
+    """
     print_logo()
-    #account()
+    # ask_account()
     choose_game(True, "k")
 
 
 if __name__ == '__main__':
     main()
-
-# een script wat de functies heeft dus dan hoef je alleen een string door te geven waardoor je de functions.py import en dan een variable meegeeft en dat het returned

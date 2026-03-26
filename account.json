@@ -5,6 +5,10 @@
       "password": "k"
     },
     {
+      "username": "f",
+      "password": "f"
+    },
+    {
       "username": "a",
       "password": "b"
     },
@@ -27,6 +31,28 @@
     {
       "username": "l",
       "password": "l"
+    },
+    {
+      "username": "3",
+      "password": "3"
+    },
+    {
+      "username": "1",
+      "password": "1"
+    }
+  ],
+  "AccountScore": [
+    {
+      "username": "f",
+      "score": 4
+    },
+    {
+      "username": "f",
+      "score_guesser": 4
+    },
+    {
+      "username": "k",
+      "score_guesser": 12
     }
   ]
 }

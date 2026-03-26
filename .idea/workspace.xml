@@ -30,24 +30,54 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.api_animal.executor&quot;: &quot;Run&quot;,
+    &quot;Python.galgje.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.weather_api.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
     &quot;ai.playground.ignore.import.keys.banner.in.settings&quot;: &quot;true&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kenan/Documents/GitHub/nan&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\kenan\Documents\GitHub\nan\misc" />
+      <recent name="C:\Users\kenan\Documents\GitHub\nan\api" />
       <recent name="C:\Users\kenan\Documents\GitHub\nan\wordlist" />
       <recent name="C:\Users\kenan\Documents\GitHub\nan\games" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="galgje" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="nan" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/games" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="RUN_TOOL" value="" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/games/galgje.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="nan" />
       <option name="ENV_FILES" value="" />
@@ -75,13 +105,13 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.galgje" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-PY-253.31033.139" />
         <option value="bundled-python-sdk-2653e85de345-6d6dccd035ac-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-253.31033.139" />
       </set>
     </attachedChunks>
@@ -120,6 +150,28 @@
       <workItem from="1773007769496" duration="33000" />
       <workItem from="1773007815714" duration="143000" />
       <workItem from="1773007970051" duration="4181000" />
+      <workItem from="1773057554541" duration="11672000" />
+      <workItem from="1773072390064" duration="1949000" />
+      <workItem from="1773143886708" duration="253000" />
+      <workItem from="1773149872630" duration="209000" />
+      <workItem from="1773667055193" duration="902000" />
+      <workItem from="1773745987531" duration="475000" />
+      <workItem from="1773759809843" duration="140000" />
+      <workItem from="1773839538976" duration="20000" />
+      <workItem from="1773839788737" duration="26000" />
+      <workItem from="1773852434233" duration="6469000" />
+      <workItem from="1773913533166" duration="3833000" />
+      <workItem from="1774185228631" duration="19750000" />
+      <workItem from="1774266034219" duration="15657000" />
+      <workItem from="1774343883975" duration="3926000" />
+      <workItem from="1774386221198" duration="5860000" />
+      <workItem from="1774436867928" duration="267000" />
+      <workItem from="1774437872659" duration="392000" />
+      <workItem from="1774438307241" duration="19000" />
+      <workItem from="1774439386363" duration="267000" />
+      <workItem from="1774440684557" duration="1669000" />
+      <workItem from="1774450333021" duration="2853000" />
+      <workItem from="1774518114681" duration="759000" />
     </task>
     <servers />
   </component>
@@ -127,7 +179,11 @@
     <option name="version" value="3" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/nan$main.coverage" NAME="main Coverage Results" MODIFIED="1773012429870" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/weather_api_py$main.coverage" NAME="main Coverage Results" MODIFIED="1774441718208" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/nan$api_animal.coverage" NAME="api_animal Coverage Results" MODIFIED="1774199348443" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api" />
+    <SUITE FILE_PATH="coverage/nan$weather_api.coverage" NAME="weather_api Coverage Results" MODIFIED="1774275970327" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/api" />
+    <SUITE FILE_PATH="coverage/nan$galgje.coverage" NAME="galgje Coverage Results" MODIFIED="1774344461169" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/games" />
+    <SUITE FILE_PATH="coverage/nan$main.coverage" NAME="main Coverage Results" MODIFIED="1774350596859" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="github-copilot-workspace">
     <instructionFileLocations>

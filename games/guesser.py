@@ -1,85 +1,99 @@
 import random
-
-# region Colors
-RED = "\x1b[1;31m"
-WHITE = "\x1b[0m"
-GREEN = "\x1b[1;32m"
-BLUE = " \x1b[1;34m"
-NEW_LINE = "\n"
+from extras import logos
+import account_management
+from extras.colors import *
 
 
-# endregion
-
-# region Logo + name
+# region Logo
 def print_logo():
-    logo = RED + r"""         ___           ___           ___           ___           ___           ___           ___     
-        /\__\         /\  \         /\__\         /\__\         /\__\         /\__\         /\  \    
-       /:/ _/_        \:\  \       /:/ _/_       /:/ _/_       /:/ _/_       /:/ _/_       /::\  \   
-      /:/ /\  \        \:\  \     /:/ /\__\     /:/ /\  \     /:/ /\  \     /:/ /\__\     /:/\:\__\  
-     /:/ /::\  \   ___  \:\  \   /:/ /:/ _/_   /:/ /::\  \   /:/ /::\  \   /:/ /:/ _/_   /:/ /:/  /  
-    /:/__\/\:\__\ /\  \  \:\__\ /:/_/:/ /\__\ /:/_/:/\:\__\ /:/_/:/\:\__\ /:/_/:/ /\__\ /:/_/:/__/___
-    \:\  \ /:/  / \:\  \ /:/  / \:\/:/ /:/  / \:\/:/ /:/  / \:\/:/ /:/  / \:\/:/ /:/  / \:\/:::::/  /
-     \:\  /:/  /   \:\  /:/  /   \::/_/:/  /   \::/ /:/  /   \::/ /:/  /   \::/_/:/  /   \::/~~/~~~~ 
-      \:\/:/  /     \:\/:/  /     \:\/:/  /     \/_/:/  /     \/_/:/  /     \:\/:/  /     \:\~~\     
-       \::/  /       \::/  /       \::/  /        /:/  /        /:/  /       \::/  /       \:\__\    
-        \/__/         \/__/         \/__/         \/__/         \/__/         \/__/         \/__/    """ + WHITE + NEW_LINE
-    print(logo)
-
-
-def print_name(user_name):
-    print_logo()
-    print("Welcome: " + user_name + NEW_LINE)
+    logos.print_guesser_logo()
 
 
 # endregion
+
+GAME_KEY = "score_guesser"
+
 
 def check_valid_input(user_input):
     if not user_input.strip():
         print("No valid input")
         return False
     else:
-        if user_input.isdigit():
+        if user_input.lstrip('-').isdigit():
             return True
-        print("Enter a valid number")
+        print(f"{RED}Enter a valid number{WHITE}")
         return False
 
 
-def generate_number_to_guess(difficulty):
+def generate_number_to_guess(difficulty, lowest=1, highest=10):
     minimum_number = 1
 
     easy_mode_max_guess_number = 10
     normal_mode_max_guess_number = 50
     hard_mode_max_guess_number = 100
 
-    if difficulty == 1:
-        return random.randint(minimum_number, easy_mode_max_guess_number)
+    match difficulty:
+        case 1:
+            return random.randint(minimum_number, easy_mode_max_guess_number)
 
-    elif difficulty == 2:
-        return random.randint(minimum_number, normal_mode_max_guess_number)
+        case 2:
+            return random.randint(minimum_number, normal_mode_max_guess_number)
 
-    elif difficulty == 3:
-        return random.randint(minimum_number, hard_mode_max_guess_number)
-    return random.randint(minimum_number, easy_mode_max_guess_number)
+        case 3:
+            return random.randint(minimum_number, hard_mode_max_guess_number)
+        case 4:
+            return random.randint(lowest, highest)
+        case _:
+            return random.randint(minimum_number, easy_mode_max_guess_number)
 
 
-def user_max_tries(difficulty):
+def user_max_tries(difficulty, custom_tries=5):
     easy_mode_max_tries = 5
     normal_mode_max_tries = 7
     hard_mode_max_tries = 10
 
-    if difficulty == 1:
-        return easy_mode_max_tries
+    match difficulty:
+        case 1:
+            return easy_mode_max_tries
+        case 2:
+            return normal_mode_max_tries
+        case 3:
+            return hard_mode_max_tries
+        case 4:
+            return custom_tries
+        case _:
+            return easy_mode_max_tries
 
-    elif difficulty == 2:
-        return normal_mode_max_tries
 
-    elif difficulty == 3:
-        return hard_mode_max_tries
-    return easy_mode_max_tries
+def custom_mode():
+    while True:
+        user_input_tries = input("How many tries?: ")
+        user_input_lowest_number = input("Lowest number: ")
+        user_input_highest_number = input("Highest number: ")
+
+        if check_valid_input(user_input_tries) and check_valid_input(user_input_lowest_number) and check_valid_input(user_input_highest_number):
+            tries = int(user_input_tries)
+            lowest = int(user_input_lowest_number)
+            highest = int(user_input_highest_number)
+
+            if lowest >= highest:
+                print(f"{RED}Lowest{WHITE} number must be {BRIGHT_RED}smaller{WHITE} than the {BLUE}highest{WHITE} number.")
+                continue
+            if tries <= 0:
+                print(f"{RED}Tries{WHITE} must be greater than {BRIGHT_RED}0{WHITE}.")
+                continue
+
+            print(f"{GREEN}Custom{WHITE} mode is chosen\n")
+            return lowest, highest, tries, 4
 
 
 def mode_handler():
-    print("Pick your difficulty \n" + GREEN + " 1. Easy (1-10)" + BLUE + "\n 2. Normal (1-50)\n" + RED + " 3. Hard (1-100)\n " + WHITE)
+    print(f"Pick your difficulty \n"
+          f"{GREEN} 1. Easy (1-10)"
+          f"{BLUE}\n 2. Normal (1-50)\n"
+          f"{RED} 3. Hard (1-100)\n "
+          f"{MAGENTA}4. Custom"
+          f"{WHITE}")
     user_pick = input("Select which difficulty: ", )
 
     if not check_valid_input(user_pick):
@@ -95,20 +109,21 @@ def mode_handler():
     normal_mode_max_tries = 7
     hard_mode_max_tries = 10
 
-    if user_pick == 1:
-        print(GREEN + "Easy mode is chosen\n" + WHITE)
-        return easy_mode_max_guess, easy_mode_max_tries, 1
-
-    if user_pick == 2:
-        print(BLUE + "Normal mode is chosen\n" + WHITE)
-        return normal_mode_max_guess, normal_mode_max_tries, 2
-
-    if user_pick == 3:
-        print(RED + "Hard mode is chosen \n" + WHITE)
-        return hard_mode_max_guess, hard_mode_max_tries, 3
-    else:
-        print("Chose a difficulty (numbers only).")
-        return mode_handler()
+    match user_pick:
+        case 1:
+            print(f"{GREEN}Easy mode is chosen\n{WHITE}")
+            return easy_mode_max_guess, easy_mode_max_tries, 1
+        case 2:
+            print(f"{BLUE}Normal mode is chosen\n{WHITE}")
+            return normal_mode_max_guess, normal_mode_max_tries, 2
+        case 3:
+            print(f"{RED}Hard mode is chosen \n{WHITE}")
+            return hard_mode_max_guess, hard_mode_max_tries, 3
+        case 4:
+            return custom_mode()
+        case _:
+            print(f"Chose a difficulty ({RED}numbers{WHITE} only).")
+            return mode_handler()
 
 
 def calculate_difficulty(user_score):
@@ -116,11 +131,11 @@ def calculate_difficulty(user_score):
     normal_score = 12
 
     if user_score < low_score:
-        return print("Try a lower difficulty")
+        return print(f"Try a {RED}lower{WHITE} difficulty")
     elif low_score <= user_score <= normal_score:
-        return print("Keep this difficulty")
+        return print(f"{GREEN}Keep this difficulty{WHITE}")
     else:
-        return print("Advies: je kunt een hogere moeilijkheidsgraad aan!")
+        return print(f"Try a {RED}harder{WHITE} difficulty!")
 
 
 def calculate_score(difficulty_level, user_tries):
@@ -128,15 +143,18 @@ def calculate_score(difficulty_level, user_tries):
     return score
 
 
-def start_guess_game():
+def start_guess_game(user_name):
+    print_logo()
+    old_score = account_management.get_user_score(user_name, GAME_KEY)
+    print(f"Welcome back {BRIGHT_CYAN}{user_name}{WHITE}! Your {RED}previous{WHITE} highscore was: {BRIGHT_CYAN}{old_score}{WHITE}\n")
+
     has_won = False
     user_tries = 0
     add_one = 1
 
-    max_guess_number, max_tries, difficulty_level = mode_handler()
+    lowest_num, max_guess_number, max_tries, difficulty_level = mode_handler()
 
-    number_to_guess = generate_number_to_guess(difficulty_level)
-    print("number to guess: " + str(number_to_guess))
+    number_to_guess = generate_number_to_guess(difficulty_level, lowest_num, max_guess_number)
 
     while user_tries < max_tries:
         user_guess = input("number guess: ")
@@ -146,39 +164,40 @@ def start_guess_game():
             user_tries += add_one
             remaining = max_tries - user_tries
 
-            print("Tries left: " + RED + str(remaining) + WHITE + ", User tries: " + BLUE + str(user_tries) + WHITE)
-
             if user_guess == number_to_guess:
                 has_won = True
+                print(f"Tries left: {RED}{remaining}{WHITE}, User tries: {BLUE}{user_tries}{WHITE}")
                 break
             else:
                 difference = abs(user_guess - number_to_guess)
                 if difference <= 2:
-                    print("Your close!")
+                    print("You're close!")
 
-            if user_guess < number_to_guess:
-                print("Higher")
-            else:
-                print("Lower")
+                if user_guess < number_to_guess:
+                    print("Higher")
+                else:
+                    print("Lower")
+
+                print(f"Tries left: {RED}{remaining}{WHITE}, User tries: {BLUE}{user_tries}{WHITE}")
 
     if has_won:
         score = calculate_score(difficulty_level, user_tries)
-        print(f"Number guessed! Your score is:{BLUE}{score}{WHITE}")
-        calculate_difficulty(score)
-
+        print(f"Number guessed! Your score is: {BLUE}{score}{WHITE}")
     else:
-        print("You ran out of " + RED + "tries" + WHITE + ", the number was " + RED + str(number_to_guess) + WHITE)
         score = 0
-        print("Your score is: " + RED + str(score) + WHITE)
-        calculate_difficulty(score)
+        print(f"You ran out of {RED}tries{WHITE}, the number was {RED}{number_to_guess}{WHITE}")
+        print(f"Your score is: {RED}{score}{WHITE}")
 
-    start_game_again()
+    calculate_difficulty(score)
+    account_management.update_user_score(user_name, score, GAME_KEY)
+    start_game_again(user_name)
 
 
-def start_game_again():
+def start_game_again(username):
     play_again = input(f"\nWould you like to play again? ({GREEN}y{WHITE}/{RED}n{WHITE}): ")
 
-    if play_again == "y":
-        start_guess_game()
-    else:
-        print("Till next time")
+    match play_again:
+        case "y":
+            start_guess_game(username)
+        case _:
+            print("Till next time")
