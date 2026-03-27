@@ -1,6 +1,6 @@
+import html
 import requests
 from extras import logos
-import html
 from extras.colors import *
 
 def print_logo():
@@ -29,7 +29,7 @@ def start_api_animal(user_name):
         elif user_answer in ["f", "false"]:
             normalized_answer = "False"
         else:
-            print(f"{RED}Ongeldige invoer! Gebruik True of False.{WHITE}")
+            print(f"{RED}Invalid choice{WHITE}")
             normalized_answer = "Invalid"
 
         if normalized_answer == correct_answer:

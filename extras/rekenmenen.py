@@ -65,7 +65,7 @@ def mistake_report():
 
                     mistakes.append(f"{first} {operation} {second} is unfortunately not {given}")
     except FileNotFoundError:
-        return ["No history found. Play a session first!"]
+        return [f"No history found. Play a session first!"]
 
     return mistakes
 

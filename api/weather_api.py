@@ -1,8 +1,11 @@
 import requests
+import os
+from dotenv import  load_dotenv
 from extras import logos
 from extras.colors import *
 
-KEY = "3a82f8cac925f7266f434c23f1e9d8d7"
+load_dotenv()
+KEY = os.getenv('weather_api')
 
 
 def print_logo():
@@ -40,7 +43,7 @@ def guess_game(user_city, temperature):
     give_up = False
     has_won = False
     user_tries = ask_user_tries()
-    number_to_guess = round(temperature)
+    number_to_guess = int(temperature)
 
     while not give_up | user_tries <= 0:
         user_input = input(f"Guess the weather in {BRIGHT_CYAN}{user_city}{WHITE} (round up or down | stop to show the weather ): ")

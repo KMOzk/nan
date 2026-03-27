@@ -8,14 +8,20 @@ SCORE_TEXT = "score_galgje.txt"
 
 def read_text(file_name):
     word_dict = {}
-    with open(file_name, "r") as file:
-        for word in file.read().splitlines():
-            if len(word) < 6:
-                word_dict[word] = 1
-            elif 7 <= len(word) <= 11:
-                word_dict[word] = 2
-            else:
-                word_dict[word] = 3
+    try:
+        with open(file_name, "r") as file:
+            for word in file.read().splitlines():
+                if len(word) < 6:
+                    word_dict[word] = 1
+                elif 7 <= len(word) <= 11:
+                    word_dict[word] = 2
+                else:
+                    word_dict[word] = 3
+    except FileNotFoundError:
+        print(f"{RED}Error: Wordlist file '{file_name}' not found.{WHITE}")
+
+        word_dict = {"apple": 1, "programming": 3, "python": 2}
+
     return word_dict
 
 
@@ -182,8 +188,9 @@ def choose_option(player_name, galge_word_dict):
         case _:
             print(f"\n{BRIGHT_RED}Invalid{WHITE} choice.")
 
+
 def start_galgje_game(name):
     galge_word_dict = read_text(WORD_DICTIONARY)
     print_logo()
     print_name(name)
-    choose_option(name,galge_word_dict)
+    choose_option(name, galge_word_dict)

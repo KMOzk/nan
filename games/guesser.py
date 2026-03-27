@@ -112,13 +112,13 @@ def mode_handler():
     match user_pick:
         case 1:
             print(f"{GREEN}Easy mode is chosen\n{WHITE}")
-            return easy_mode_max_guess, easy_mode_max_tries, 1
+            return 1, easy_mode_max_guess, easy_mode_max_tries, 1
         case 2:
             print(f"{BLUE}Normal mode is chosen\n{WHITE}")
-            return normal_mode_max_guess, normal_mode_max_tries, 2
+            return 1, normal_mode_max_guess, normal_mode_max_tries, 2
         case 3:
             print(f"{RED}Hard mode is chosen \n{WHITE}")
-            return hard_mode_max_guess, hard_mode_max_tries, 3
+            return 1, hard_mode_max_guess, hard_mode_max_tries, 3
         case 4:
             return custom_mode()
         case _:
@@ -152,33 +152,41 @@ def start_guess_game(user_name):
     user_tries = 0
     add_one = 1
 
-    lowest_num, max_guess_number, max_tries, difficulty_level = mode_handler()
+    lowest_number, max_guess_number, max_tries, difficulty_level = mode_handler()
 
-    number_to_guess = generate_number_to_guess(difficulty_level, lowest_num, max_guess_number)
+    number_to_guess = generate_number_to_guess(difficulty_level, lowest_number, max_guess_number)
 
     while user_tries < max_tries:
-        user_guess = input("number guess: ")
+        user_guess = input("Number guess (or press enter to stop): ").strip()
 
-        if check_valid_input(user_guess):
+        if not user_guess:
+            print(f"{BRIGHT_RED}Session stopped.{WHITE}")
+            return
+
+        try:
             user_guess = int(user_guess)
-            user_tries += add_one
-            remaining = max_tries - user_tries
+        except ValueError:
+            print(f"{BRIGHT_RED}Please enter a valid number.{WHITE}")
+            continue
 
-            if user_guess == number_to_guess:
-                has_won = True
-                print(f"Tries left: {RED}{remaining}{WHITE}, User tries: {BLUE}{user_tries}{WHITE}")
-                break
+        user_tries += add_one
+        remaining = max_tries - user_tries
+
+        if user_guess == number_to_guess:
+            has_won = True
+            break
+        else:
+            difference = abs(user_guess - number_to_guess)
+            if difference <= 2:
+                print(f"You're {GREEN}close!{WHITE}")
+
+            if user_guess < number_to_guess:
+                print(f"{BRIGHT_CYAN}Higher{WHITE}")
             else:
-                difference = abs(user_guess - number_to_guess)
-                if difference <= 2:
-                    print("You're close!")
+                print(f"{RED}Lower{WHITE}")
 
-                if user_guess < number_to_guess:
-                    print("Higher")
-                else:
-                    print("Lower")
-
-                print(f"Tries left: {RED}{remaining}{WHITE}, User tries: {BLUE}{user_tries}{WHITE}")
+            current_score = calculate_score(difficulty_level, user_tries)
+            print(f"Tries left: {RED}{remaining}{WHITE}, Current score: {BLUE}{current_score}{WHITE}\n")
 
     if has_won:
         score = calculate_score(difficulty_level, user_tries)
